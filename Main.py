@@ -10,6 +10,7 @@ attributeNum = 0
 Concerts = []
 Choirs = []
 Years = []
+Attributes = []
 
 
 
@@ -60,15 +61,27 @@ def establishAttributes(objects):
                 if (obj[attr] not in Concerts):
                     Concerts.append(obj[attr])
 
-        if attr == 'Choir':
+        elif attr == 'Choir':
             for obj in objects:
                 if (obj[attr] not in Choirs):
                     Choirs.append(obj[attr])
 
-        if attr == 'Year':
+        elif attr == 'Year':
             for obj in objects:
                 if (obj[attr] not in Years):
                     Years.append(obj[attr])
+
+        if attr not in Attributes:
+            Attributes.append(attr)
+
+def checkAttr(preattr):
+    wrong = True
+    while (wrong):
+        attr = preattr.lower().Capitalize()
+        if  attr in Attributes:
+            wrong = False
+            return attr
+        else : preattr = input('Inncorect Attribute, please try again : ')
 
 def viewObjects(objects):
     os.system('cls')
@@ -93,8 +106,15 @@ def editObject(objects):
     else:
         choice = checkInt(0,objects.length() -1, tempChoice)
     
-    print(f"You've chosen to select the object at the index {choice}.")
-    # Find which attribute with they'd want to change and iterate and change with set lists.
+    print(f"You've chosen to edit the object at the index {choice}.")
+    
+    i = 0
+    for key in objects[choice]:
+        print(f'{key} : {objects[choice][key]}' )
+    attrChoice = checkAttr(input('\nWhich attribute of this class would you like to change? Enter "Quit" to return to previous menu. : '))
+    #ACTUALLY EDIT THE ATTRIBUTE
+
+
 
 def appendObject(objects):
     pass
