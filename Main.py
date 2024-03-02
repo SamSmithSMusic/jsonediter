@@ -34,18 +34,19 @@ def checkInt(lowbound,highbound,inbound):
 def manageObjects(filePath):
     with open(filePath, 'r') as file:
         objects = json.load(file)
+    establishAttributes(objects)
 
     os.system('cls')
     print('Objects Successfully loaded - \n')
     
     while (True):
-        choice = checkInt(0,4,input("What would you like to do?\n1 : View all Objects with Attributes\n2 : Edit an Object\n3 : Append an Object\n4 : Remove an Object \n0 : Back to Main Menu"))
+        os.system('cls')
+        choice = checkInt(0,4,input("What would you like to do?\n1 : View all Objects with Attributes\n2 : Edit an Object\n3 : Append an Object\n4 : Remove an Object \n0 : Back to Main Menu\n"))
         if choice == 0:
             break
         elif choice == 1:
             viewObjects(objects)
         elif choice == 2:
-            establishAttributes(objects)
             editObject(objects)
         elif choice == 3:
             appendObject(objects)
@@ -77,7 +78,7 @@ def establishAttributes(objects):
 def checkAttr(preattr):
     wrong = True
     while (wrong):
-        attr = preattr.lower().Capitalize()
+        attr = preattr.lower().capitalize()
         if  attr in Attributes:
             wrong = False
             return attr
@@ -104,17 +105,67 @@ def editObject(objects):
     if tempChoice.lower() == 'quit':
         return
     else:
-        choice = checkInt(0,objects.length() -1, tempChoice)
+        choice = checkInt(0,len(objects) -1, tempChoice)
     
-    print(f"You've chosen to edit the object at the index {choice}.")
+    print(f"\nYou've chosen to edit the object at the index {choice}.")
     
     i = 0
     for key in objects[choice]:
         print(f'{key} : {objects[choice][key]}' )
-    attrChoice = checkAttr(input('\nWhich attribute of this class would you like to change? Enter "Quit" to return to previous menu. : '))
-    #ACTUALLY EDIT THE ATTRIBUTE
+    tempattrChoice = input('\nWhich attribute of this class would you like to change? Enter "Quit" to return to previous menu. : ')
+    if tempattrChoice.lower() == 'quit':
+        return
+    attrChoice = checkAttr(tempattrChoice)
 
+    if attrChoice.lower() == 'concert':
 
+        while (True):
+            print(f'The current value of Concert is {objects[choice]["Concert"]}\n')
+            i =0
+            for concert in Concerts:
+                print(f'{i} - {concert}')
+                i+= 1
+            newchoice = checkInt(0,len(Concerts) -1,input('Please enter the number of the value you would like to change to : '))
+            yn = input(f'You are about to change the value {objects[choice]["Concert"]}, to {Concerts[newchoice]}. Confirm? (y/n) : ')
+            if yn.lower() == 'y':
+                objects[choice]['Concert'] = Concerts[newchoice]
+                break
+
+    elif attrChoice.lower() == 'choir':
+
+        while (True):
+            print(f'The current value of Choir is {objects[choice]["Choir"]}\n')
+            i =0
+            for choir in Choirs:
+                print(f'{i} - {choir}')
+                i+= 1
+            newchoice = checkInt(0,len(Choirs) -1,input('Please enter the number of the value you would like to change to : '))
+            yn = input(f'You are about to change the value {objects[choice]["Choir"]}, to {Choirs[newchoice]}. Confirm? (y/n) : ')
+            if yn.lower() == 'y':
+                objects[choice]['Choir'] = Choirs[newchoice]
+                break
+
+    elif attrChoice.lower() == 'year':
+
+        while (True):
+            print(f'The current value of Year is {objects[choice]["Year"]}\n')
+            i =0
+            for year in Years:
+                print(f'{i} - {year}')
+                i+= 1
+            newchoice = checkInt(0,len(Years) -1,input('Please enter the number of the value you would like to change to : '))
+            yn = input(f'You are about to change the value {objects[choice]["Year"]}, to {Years[newchoice]}. Confirm? (y/n) : ')
+            if yn.lower() == 'y':
+                objects[choice]['Year'] = Years[newchoice]
+                break
+
+    else:
+        while (True):
+            newValue = input(f'The current value of {attrChoice} is {objects[choice][attrChoice]}\nWhat would you like to change it to? : ')
+            yn = input(f'You are about to change the value {objects[choice][attrChoice]}, to {newValue}. Confirm? (y/n) : ')
+            if yn.lower() == 'y':
+                objects[choice][attrChoice] = newValue
+                break
 
 def appendObject(objects):
     pass
@@ -158,7 +209,7 @@ while running :
     
     while (inMenu):
         os.system('cls')
-        choice = checkInt(0,3,input("What would you like to do with this json file?\n1 : Manage Objects\n2 : Manage Set Attributes\n3 : View Raw Json\n4 : SaveAs & Quit \n0 : Quit Without Saving"))
+        choice = checkInt(0,3,input("What would you like to do with this json file?\n1 : Manage Objects\n2 : Manage Set Attributes\n3 : View Raw Json\n4 : SaveAs & Quit \n0 : Quit Without Saving\n"))
         if choice == 0:
             running = False
             break
