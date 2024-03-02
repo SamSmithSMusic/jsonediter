@@ -31,6 +31,7 @@ def checkInt(lowbound,highbound,inbound):
         except ValueError:
             inbound = input('Invalid Entry, please try again : \n') 
 
+
 def manageObjects(filePath):
     with open(filePath, 'r') as file:
         objects = json.load(file)
@@ -170,7 +171,9 @@ def editObject(objects):
 def appendObject(objects):
     pass
 
-    
+def removeObject(objects):
+    pass
+
 
 def manageAttributes(filePath):
     pass
