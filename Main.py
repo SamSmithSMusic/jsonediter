@@ -2,6 +2,8 @@
 
 import json
 import os
+import time
+from datetime import datetime
 
 choice = 0
 running = True
@@ -32,27 +34,27 @@ def checkInt(lowbound,highbound,inbound):
             inbound = input('Invalid Entry, please try again : \n') 
 
 
-def manageObjects(filePath):
-    with open(filePath, 'r') as file:
-        objects = json.load(file)
-    establishAttributes(objects)
+def manageObjects():
+    # with open(filePath, 'r') as file:
+    #     objects = json.load(file)
+    
 
     os.system('cls')
     print('Objects Successfully loaded - \n')
     
     while (True):
-        os.system('cls')
-        choice = checkInt(0,4,input("What would you like to do?\n1 : View all Objects with Attributes\n2 : Edit an Object\n3 : Append an Object\n4 : Remove an Object \n0 : Back to Main Menu\n"))
+        establishAttributes(objects)
+        choice = checkInt(0,4,input("\nWhat would you like to do?\n1 : View all Objects with Attributes\n2 : Edit an Object\n3 : Append an Object\n4 : Remove an Object \n0 : Back to Main Menu\n"))
         if choice == 0:
             break
         elif choice == 1:
-            viewObjects(objects)
+            viewObjects()
         elif choice == 2:
-            editObject(objects)
+            editObject()
         elif choice == 3:
-            appendObject(objects)
+            appendObject()
         elif choice == 4:
-            removeObj(objects)
+            removeObj()
 
 def establishAttributes(objects):
     #Can Be enhanced by setting concert attr's to what the user wants to make it universal.
@@ -85,7 +87,7 @@ def checkAttr(preattr):
             return attr
         else : preattr = input('Inncorect Attribute, please try again : ')
 
-def viewObjects(objects):
+def viewObjects():
     os.system('cls')
     print('Here is a list of the loaded objects and their attributes.')
     i = 0
@@ -100,8 +102,8 @@ def viewObjects(objects):
     
     print('\n')
 
-def editObject(objects):
-    viewObjects(objects)
+def editObject():
+    viewObjects()
     tempChoice = input('Please enter the number object you would like to change, Enter "quit" to return : ')
     if tempChoice.lower() == 'quit':
         return
@@ -168,21 +170,125 @@ def editObject(objects):
                 objects[choice][attrChoice] = newValue
                 break
 
-def appendObject(objects):
+def appendObject():
+    while True:
+
+        i=0
+        print('')
+        for choir in Concerts:
+            print(f'{i} - {choir}')
+            i+= 1
+        newConcert = Concerts[checkInt(0,len(Concerts)-1,input('Please input the number associated with the Concert value you want : '))]
+
+        i=0
+        print('')
+        for choir in Choirs:
+            print(f'{i} - {choir}')
+            i+= 1
+        newChoir = Choirs[checkInt(0,len(Choirs)-1,input('Please input the number associated with the Choir value you want : '))]
+
+        newSong = input('Please enter the name of the song : ')
+        newCredit = input('Please enter the credit for this song : ')
+
+        i=0
+        print('')
+        for choir in Years:
+            print(f'{i} - {choir}')
+            i+= 1
+        newYear = Years[checkInt(0,len(Years)-1,input('Please input the number associated with the Year value you want : '))]     
+
+        newSource = input('Please enter the link to the video from google drive of this performance : ')
+
+        print(f'''
+{Attributes[0]} - {newConcert}
+{Attributes[1]} - {newChoir}
+{Attributes[2]} - {newSong}
+{Attributes[3]} - {newCredit}
+{Attributes[4]} - {newYear}
+{Attributes[5]} - {newSource}
+
+Does this information look correct? (y/n) : 
+''')
+        yn = input()
+        if yn.lower() == 'y':
+            newObject = {
+            Attributes[0] : newConcert,
+            Attributes[1] : newChoir,
+            Attributes[2] : newSong,
+            Attributes[3] : newCredit,
+            Attributes[4] : newYear,
+            Attributes[5] : newSource}
+
+
+            objects.append(newObject)
+            print('Object Successfully added.')
+            time.sleep(1)
+            break
+        else:
+            print("Okay. let's try again - ")
+
+def removeObj():
+    while True:
+        viewObjects()
+        preremoveChoice = input('Please enter the number associated with the onject you would like to remove, enter "quit" to return to previous menu. : ')
+        if preremoveChoice.lower() == 'quit':
+            break
+        removeChoice = checkInt(0,len(objects) -1,preremoveChoice)
+        
+        yn = input(f'Are you sure you want to remove - \n{objects[removeChoice]}\nfrom the json file? (y/n) : ')
+        if yn.lower() == 'y':
+            objects.pop(removeChoice)
+            print('The object has been successfully removed.')
+            time.sleep(1)
+            break
+        else :
+            print()
+
+
+def manageAttributes():
+        os.system('cls')
+        print('Attributes Successfully loaded - \n')
+    
+        while (True):
+            establishAttributes(objects)
+            choice = checkInt(0,4,input("\nWhat would you like to do?\n1 : View all Set Attributes\n2 : Edit a Set Attribute\n3 : Add a Set Attribute option\n4 : Remove a Set Attribute option\n0 : Back to Main Menu\n"))
+            if choice == 0:
+                break
+            elif choice == 1:
+                viewAttr()
+            elif choice == 2:
+                editAttr()
+            elif choice == 3:
+                addAttr()
+            elif choice == 4:
+                removeAttr()
+
+def viewAttr():
     pass
 
-def removeObject(objects):
+def editAttr():
     pass
 
-
-def manageAttributes(filePath):
+def addAttr():
     pass
 
-def viewRaw(filePath):
+def removeAttr():
     pass
 
 def saveAs():
-    pass
+#    filePath = input('Please input the abosolute path to the directory you would like to save this file to.')
+    filePath = r'C:\Users\samsm\Desktop'
+    yn = input('Would you like to name the file? (y/n) : ')
+    fileName = datetime.now().strftime("%H-%M-%S")
+    if yn.lower() == 'y':
+        fileName = input('Enter the name : ')
+    
+    try:
+        with open(filePath + f'\\{fileName}.json', 'w') as file:
+            json.dump(objects,file, indent=4)
+    except Exception as e:
+        print(f'An Error occurred while saving: {e}\n\n Press ENTER to continue.')
+        input()
     
 
 
@@ -204,6 +310,10 @@ while running :
         
 
         if check :
+            with open(jsonPath, 'r') as file:
+                objects = json.load(file)
+            establishAttributes(objects)
+
             print(f"JSON file at {jsonPath} succesfully found.")
             break
         else:
@@ -212,18 +322,16 @@ while running :
     
     while (inMenu):
         os.system('cls')
-        choice = checkInt(0,3,input("What would you like to do with this json file?\n1 : Manage Objects\n2 : Manage Set Attributes\n3 : View Raw Json\n4 : SaveAs & Quit \n0 : Quit Without Saving\n"))
+        choice = checkInt(0,3,input("What would you like to do with this json file?\n1 : Manage Objects\n2 : Manage Set Attributes\n3 : SaveAs \n0 : Quit Without Saving\n"))
         if choice == 0:
             running = False
             break
         elif choice == 1:
-            manageObjects(jsonPath)
+            manageObjects()
         elif choice == 2:
-            manageAttributes(jsonPath)
+            manageAttributes()
         elif choice == 3:
-            viewRaw(jsonPath)
-        elif choice == 4:
-            saveAs(jsonPath)
+            saveAs()
         
 
 
