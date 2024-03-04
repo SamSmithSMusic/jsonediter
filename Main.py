@@ -9,6 +9,7 @@ choice = 0
 running = True
 objects = []
 attributeNum = 0
+#Concerts, Choirs, and Years are only referenced through the SetAttributes list further down.
 Concerts = []
 Choirs = []
 Years = []
