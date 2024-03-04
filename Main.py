@@ -13,7 +13,8 @@ Concerts = []
 Choirs = []
 Years = []
 Attributes = []
-
+SetAttributes = [Concerts,Choirs,Years]
+SetAttrNames = ['Concerts','Choirs','Years']
 
 
 def checkJson(prePath) :
@@ -32,7 +33,6 @@ def checkInt(lowbound,highbound,inbound):
                 raise ValueError
         except ValueError:
             inbound = input('Invalid Entry, please try again : \n') 
-
 
 def manageObjects():
     # with open(filePath, 'r') as file:
@@ -244,30 +244,32 @@ def removeObj():
         else :
             print()
 
-
 def manageAttributes():
         os.system('cls')
         print('Attributes Successfully loaded - \n')
     
         while (True):
             establishAttributes(objects)
-            choice = checkInt(0,4,input("\nWhat would you like to do?\n1 : View all Set Attributes\n2 : Edit a Set Attribute\n3 : Add a Set Attribute option\n4 : Remove a Set Attribute option\n0 : Back to Main Menu\n"))
+            choice = checkInt(0,3,input("\nWhat would you like to do?\n1 : View all Set Attributes\n2 : Add a Set Attribute option\n3 : Remove a Set Attribute option\n0 : Back to Main Menu\n"))
             if choice == 0:
                 break
             elif choice == 1:
-                viewAttr()
+                viewSetAttr()
             elif choice == 2:
-                editAttr()
-            elif choice == 3:
                 addAttr()
-            elif choice == 4:
+            elif choice == 3:
                 removeAttr()
 
-def viewAttr():
-    pass
-
-def editAttr():
-    pass
+def viewSetAttr():
+    print('Here is a list of all set available attributes.')
+    i =0
+    for attr in SetAttributes:
+        print(f'{i} - {SetAttrNames[i]}')
+        k = 0
+        for option in attr:
+            print(f'    {option}')
+            k +=1
+        i+= 1
 
 def addAttr():
     pass
