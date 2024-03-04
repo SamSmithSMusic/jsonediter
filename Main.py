@@ -62,18 +62,18 @@ def establishAttributes(objects):
 
         if attr == 'Concert':
             for obj in objects:
-                if (obj[attr] not in Concerts):
-                    Concerts.append(obj[attr])
+                if (obj[attr] not in SetAttributes[0]):
+                    SetAttributes[0].append(obj[attr])
 
         elif attr == 'Choir':
             for obj in objects:
-                if (obj[attr] not in Choirs):
-                    Choirs.append(obj[attr])
+                if (obj[attr] not in SetAttributes[1]):
+                    SetAttributes[1].append(obj[attr])
 
         elif attr == 'Year':
             for obj in objects:
-                if (obj[attr] not in Years):
-                    Years.append(obj[attr])
+                if (obj[attr] not in SetAttributes[2]):
+                    SetAttributes[2].append(obj[attr])
 
         if attr not in Attributes:
             Attributes.append(attr)
@@ -175,27 +175,27 @@ def appendObject():
 
         i=0
         print('')
-        for choir in Concerts:
+        for choir in SetAttributes[0]:
             print(f'{i} - {choir}')
             i+= 1
-        newConcert = Concerts[checkInt(0,len(Concerts)-1,input('Please input the number associated with the Concert value you want : '))]
+        newConcert = SetAttributes[0][checkInt(0,len(SetAttributes[0])-1,input('Please input the number associated with the Concert value you want : '))]
 
         i=0
         print('')
-        for choir in Choirs:
+        for choir in SetAttributes[1]:
             print(f'{i} - {choir}')
             i+= 1
-        newChoir = Choirs[checkInt(0,len(Choirs)-1,input('Please input the number associated with the Choir value you want : '))]
+        newChoir = SetAttributes[1][checkInt(0,len(SetAttributes[1])-1,input('Please input the number associated with the Choir value you want : '))]
 
         newSong = input('Please enter the name of the song : ')
         newCredit = input('Please enter the credit for this song : ')
 
         i=0
         print('')
-        for choir in Years:
+        for choir in SetAttributes[2]:
             print(f'{i} - {choir}')
             i+= 1
-        newYear = Years[checkInt(0,len(Years)-1,input('Please input the number associated with the Year value you want : '))]     
+        newYear = SetAttributes[2][checkInt(0,len(SetAttributes[2])-1,input('Please input the number associated with the Year value you want : '))]     
 
         newSource = input('Please enter the link to the video from google drive of this performance : ')
 
@@ -264,15 +264,30 @@ def viewSetAttr():
     print('Here is a list of all set available attributes.')
     i =0
     for attr in SetAttributes:
-        print(f'{i} - {SetAttrNames[i]}')
+        print(f'{i} : {SetAttrNames[i]}')
         k = 0
         for option in attr:
-            print(f'    {option}')
+            print(f'      - {option}')
             k +=1
         i+= 1
+        print()
 
 def addAttr():
-    pass
+    viewSetAttr()
+    prechoice = input('Please enter the number of the attribute you would like to add an option to (Enter "quit" to return): ')
+    if prechoice.lower() == 'quit':
+        return
+    choice = checkInt(0,2,prechoice)
+    while True:
+        newOption = input(f'Please enter the value you would like to add to {SetAttrNames[choice]} : ')
+        yn = input(f'Are you sure you want to add {newOption} to the options for {SetAttrNames[choice]}? (y/n) : ')
+        if yn.lower() == 'y':
+            SetAttributes[choice].append(newOption)
+            print('Option successfully added.')
+            time.sleep(1)
+            return
+        print('Returning...')
+        
 
 def removeAttr():
     pass
