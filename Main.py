@@ -278,7 +278,7 @@ def addAttr():
     prechoice = input('Please enter the number of the attribute you would like to add an option to (Enter "quit" to return): ')
     if prechoice.lower() == 'quit':
         return
-    choice = checkInt(0,2,prechoice)
+    choice = checkInt(0,len(SetAttributes),prechoice)
     while True:
         newOption = input(f'Please enter the value you would like to add to {SetAttrNames[choice]} : ')
         yn = input(f'Are you sure you want to add {newOption} to the options for {SetAttrNames[choice]}? (y/n) : ')
@@ -291,7 +291,24 @@ def addAttr():
         
 
 def removeAttr():
-    pass
+    viewSetAttr()
+    prechoice = input('Please enter the number of the attribute you would like to remove an option from (Enter "quit" to return): ')
+    if prechoice.lower() == 'quit':
+        return
+    choice = checkInt(0,len(SetAttributes),prechoice)
+    while True:
+        i=0
+        for value in SetAttributes[choice]:
+            print(f'{i} - {value}')
+            i+= 1
+        newOption = checkInt(0,len(SetAttributes[choice]),input(f'Please enter the number of the Value you would like to remove from {SetAttrNames[choice]} : '))
+        yn = input(f'Are you sure you want to remove {SetAttributes[choice][newOption]} from the options for {SetAttrNames[choice]}? (y/n) : ')
+        if yn.lower() == 'y':
+            SetAttributes[choice].pop(newOption)
+            print('Option successfully removed.')
+            time.sleep(1)
+            return
+        print('Returning...')
 
 def saveAs():
 #    filePath = input('Please input the abosolute path to the directory you would like to save this file to.')
