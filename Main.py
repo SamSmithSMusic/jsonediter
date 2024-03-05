@@ -311,8 +311,8 @@ def removeAttr():
         print('Returning...')
 
 def saveAs():
-#    filePath = input('Please input the abosolute path to the directory you would like to save this file to.')
-    filePath = r'C:\Users\samsm\Desktop'
+    filePath = input('Please input the abosolute path to the directory you would like to save this file to.')
+#    filePath = r'C:\Users\samsm\Desktop'
     yn = input('Would you like to name the file? (y/n) : ')
     fileName = datetime.now().strftime("%H-%M-%S")
     if yn.lower() == 'y':
@@ -339,8 +339,8 @@ while running :
     print('Welcome to my JSON editor!')
 
     while loading:
-        # jsonPath = r"{}".format(input("Please input the absolute path to your json file:\n"))
-        jsonPath = r'C:\Users\samsm\Downloads\performances.json'
+        jsonPath = r"{}".format(input("Please input the absolute path to your json file:\n"))
+        #jsonPath = r'C:\Users\samsm\Downloads\performances.json'
         check = checkJson(jsonPath)
         
 
